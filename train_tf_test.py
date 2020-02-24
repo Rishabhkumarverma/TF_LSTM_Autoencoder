@@ -78,10 +78,10 @@ with tf.Session() as sess:
         print('train result :')
         print('input :', input_[0, :, :].flatten())
         print('output :', output_[0, :, :].flatten())
-        tf.summary.scalar("epoch_loss", epoch_loss)
-        tf.summary.scalar("avg_epoch_loss", epoch_loss / int((data.shape[0]) / batchsize) )
-        merged = tf.summary.merge_all()
-        train_writer.add_summary(merged, i)
+        # tf.summary.scalar("epoch_loss", epoch_loss)
+        # tf.summary.scalar("avg_epoch_loss", epoch_loss / int((data.shape[0]) / batchsize) )
+        # merged = tf.summary.merge_all()
+        # train_writer.add_summary(merged, i)
 
 
     graph = tf.get_default_graph()
