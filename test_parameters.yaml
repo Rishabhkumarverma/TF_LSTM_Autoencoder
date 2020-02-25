@@ -1,0 +1,5 @@
+test_path: './test_data'
+rolling_step: 4000 #rolling step.
+smooth: 2000 #smoothing of signal and response
+threshold: 12.481797126286425 #threshold above which we consider event as anomaly
+sample_rate: 16000
