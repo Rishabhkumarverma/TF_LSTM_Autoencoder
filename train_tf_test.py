@@ -3,7 +3,8 @@ import librosa
 
 from tqdm import tqdm
 from tensorflow.keras.callbacks import Callback
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 import numpy as np
 import os
 from tf_enc_dec import LSTMAutoencoder

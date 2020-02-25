@@ -1,4 +1,5 @@
 import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 from tensorflow.contrib import rnn
 from tensorflow.python.framework import graph_util
 
