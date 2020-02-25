@@ -25,12 +25,15 @@ window_width = 16000 #this is size of window to put into autoencoder.
 logs_path = "results/log"
 model_path = "results/model"
 path = 'test_data/audio'
+checkpoint_path = "results/checkpoint"
 encoder_layer_list = [15 , 15, 15, 15]
 decoder_layer_list = [15, 15, 15, 15]
 if not os.path.exists(logs_path):
     os.mkdir(logs_path)
 if not os.path.exists(model_path):
     os.mkdir(model_path)
+if not os.path.exists(checkpoint_path):
+    os.mkdir(checkpoint_path)
 for handler in logging.root.handlers[:]:
     logging.root.removeHandler(handler)
 
@@ -55,17 +58,19 @@ with tf.Session() as sess:
     tf.global_variables_initializer().run()
     tf.local_variables_initializer().run()
     train_writer = tf.summary.FileWriter(logs_path, sess.graph)
+    saver = tf.train.Saver(max_to_keep=4, keep_checkpoint_every_n_hours=1)
+    # saver = tf.train.Saver()
 
     start_time = time.time()
     for epoch in range(epochs):
         epoch_loss = 0
         minibatch = 0
         iteration = int((data.shape[0]) / batchsize)
-        for i in range(iteration):
+        for i in range(1):
             start = minibatch
             end = minibatch + batchsize
             batch_data = np.array(data[start:end, :, :])
-            (loss_val, optimizer, merged) = sess.run([model.loss, model.train, model.merged], {model.x_placeholder: batch_data, model.y_placeholder: batch_data })
+            (loss_val, optimizer, merged) = sess.run([model.loss, model.train, model.merged], feed_dict={model.x_placeholder: batch_data, model.y_placeholder: batch_data })
             print('iter %d:' % (i + 1), loss_val)
             epoch_loss += loss_val
             minibatch += batchsize
@@ -82,6 +87,9 @@ with tf.Session() as sess:
         print('train result :')
         print('input :', batch_data[0, :, :].flatten())
         print('output :', output[0, :, :].flatten())
+        if epoch/20 == 0 :
+            saver.save(sess, checkpoint_path + "/model", global_step=epoch)
+
         #summary_lossepoch = tf.summary.scalar("epoch_loss", epoch_loss)
         #summary_lossepochavg = tf.summary.scalar("epoch_loss", epoch_loss)
         #tf.summary.scalar("avg_epoch_loss", epoch_loss / int((data.shape[0]) / batchsize) )
@@ -89,7 +97,7 @@ with tf.Session() as sess:
         #train_writer.add_summary(summary_lossepoch, epoch)
         #train_writer.add_summary(summary_lossepochavg, epoch)
 
-
+    saver.save(sess, checkpoint_path + "/model", global_step=epochs)
     graph = tf.get_default_graph()
     input_graph_def = graph.as_graph_def()
 
