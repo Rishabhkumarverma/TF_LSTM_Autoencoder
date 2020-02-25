@@ -1,6 +1,6 @@
 # TF_LSTM_Autoencoder
 
-#Convert Keras model to tensorflow frozen graph which is OpenVINO convertable
+# Convert Keras model to tensorflow frozen graph which is OpenVINO convertable
  
 Tested for tensorflow 1.14.0
 
@@ -11,6 +11,10 @@ output : /trained_model/keras_output_graph.pbtxt
 # Tensorflow frozen graph to OpenVINO optimized graph 
 python3  /opt/intel/openvino/deployment_tools/model_optimizer/mo.py  --input_model ./trained_model/keras_output_graph.pb --input_shape [1,16000,1] --output dense_5/BiasAdd
 
+# Inference in OpenVINO 
+OpenVINO should be installed on system.
+Activate  OpenVINO environment.
+cmd :  python3 infer_OpenVINO.py -m keras_output_graph.xml -p test_parameter.yaml
 
 # Train Tensorflow API Based Autoencoder which can be converted into OpenVINO
   Training works for both 1.14.0 and 2.1.0 but OpenVINO conversion only works for  tensorflow version 1.14.
