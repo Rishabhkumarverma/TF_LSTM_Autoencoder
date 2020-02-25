@@ -1,7 +1,9 @@
 # TF_LSTM_Autoencoder
 
-#Convert Keras model to tensorflow frozen graph which is OpenVINO convertable 
- tested for tensorflow 1.14.0
+#Convert Keras model to tensorflow frozen graph which is OpenVINO convertable
+ 
+Tested for tensorflow 1.14.0
+
 cmd : python keras_to_tf.py --input_model ./trained_model/saved_model.h5 --num_outputs 1
 output : /trained_model/keras_output_graph.pb
 output : /trained_model/keras_output_graph.pbtxt
