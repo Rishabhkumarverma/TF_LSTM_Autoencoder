@@ -93,7 +93,7 @@ with tf.Session() as sess:
     input_graph_def = graph.as_graph_def()
 
     tf.io.write_graph(sess.graph_def, './results', 'network_trainV2.pbtxt')
-    output_node_names = "decoder/dense_output"
+    output_node_names = "decoder/dense_output/BiasAdd"
     output_graph = os.path.join(model_path, "output_tfgraphv2.pb")
     output_graph_def = graph_util.convert_variables_to_constants(sess, input_graph_def, output_node_names.split(",")
                                                                  )

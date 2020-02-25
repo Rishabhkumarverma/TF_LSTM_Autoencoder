@@ -59,7 +59,7 @@ class LSTMAutoencoderV2():
                                                                             inputs= self.output_enc,
                                                                             initial_state=self.initial_state_enc,
                                                                             dtype=tf.float32, time_major=False)
-            self.output_dense_dec = tf.layers.dense(self.output_dec, self.num_class, name="output")
+            self.output_dense_dec = tf.layers.dense(self.output_dec, self.num_class, name="dense_output")
 
             self.loss = tf.reduce_mean(tf.square(self.y_placeholder - self.output_dense_dec))
 
